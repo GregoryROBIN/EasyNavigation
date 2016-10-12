@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/accueil"
+            android:title="Accueil" />
+        <item
+            android:id="@+id/sport"
+            android:title="Sport" />
+        <item
+            android:id="@+id/politique"
+            android:title="Politique"/>
+        <item
+            android:id="@+id/actualite"
+            android:title="Actualité" />
+        <item
+            android:id="@+id/histoire"
+            android:title="Histoire" />
+    </group>
+</menu>
