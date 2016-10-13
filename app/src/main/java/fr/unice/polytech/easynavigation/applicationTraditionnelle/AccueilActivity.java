@@ -8,18 +8,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.support.design.widget.NavigationView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import fr.unice.polytech.easynavigation.GeneralActivity;
+import fr.unice.polytech.easynavigation.version2.GeneralActivity;
 import fr.unice.polytech.easynavigation.R;
 
 /**
@@ -73,7 +69,6 @@ public class AccueilActivity extends GeneralActivity implements NavigationView.O
         }
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.popBackStackImmediate();
         if(fragment !=null) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.content_frame, fragment);
@@ -111,6 +106,48 @@ public class AccueilActivity extends GeneralActivity implements NavigationView.O
             case R.id.accueil:
                 loadAccueilPage();
                 break;
+            case R.id.histoire:
+                loadPageHistoire();
+                break;
+            case R.id.actualite:
+                loadPageActualite();
+                break;
+        }
+    }
+
+    private void loadPageActualite() {
+        Fragment fragment = null;
+        try {
+            fragment = (Fragment) ActualiteFragment.newInstance();
+            if(fragment == null)
+                System.out.println("Le fragment est nul");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if(fragment !=null) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.content_frame, fragment);
+            transaction.commit();
+        }
+    }
+
+    private void loadPageHistoire() {
+        Fragment fragment = null;
+        try {
+            fragment = (Fragment) HistoireFragment.newInstance();
+            if(fragment == null)
+                System.out.println("Le fragment est nul");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if(fragment !=null) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.content_frame, fragment);
+            transaction.commit();
         }
     }
 
@@ -125,7 +162,6 @@ public class AccueilActivity extends GeneralActivity implements NavigationView.O
         }
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.popBackStackImmediate();
         if(fragment !=null) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.content_frame, fragment);
@@ -144,7 +180,6 @@ public class AccueilActivity extends GeneralActivity implements NavigationView.O
         }
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.popBackStackImmediate();
         if(fragment !=null) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.content_frame, fragment);
@@ -154,7 +189,7 @@ public class AccueilActivity extends GeneralActivity implements NavigationView.O
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        updateMenuActiveted(item);
+        //updateMenuActiveted(item);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

@@ -1,15 +1,15 @@
-package fr.unice.polytech.easynavigation;
+package fr.unice.polytech.easynavigation.version2;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import java.util.List;
+
+import fr.unice.polytech.easynavigation.R;
 
 
 /**
@@ -18,10 +18,10 @@ import java.util.List;
  */
 
 public class SpinnerAdapter extends ArrayAdapter<MenuItem> {
+    int pos=-1;
     public SpinnerAdapter(Context context, int resource, List<MenuItem> categories) {
         super(context, resource, categories);
     }
-    int pos=-1;
 
     public void setPosition(int position){
         this.pos = position;
