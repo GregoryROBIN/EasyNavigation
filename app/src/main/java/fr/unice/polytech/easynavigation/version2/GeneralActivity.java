@@ -1,9 +1,11 @@
 package fr.unice.polytech.easynavigation.version2;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -87,7 +89,9 @@ public abstract class GeneralActivity extends AppCompatActivity implements Custo
         capteurUpDown.addObserver(interpreteurUpDown);
 
 
+
     }
+
     @Override
     protected void onResume(){
         super.onPause();
@@ -125,6 +129,7 @@ public abstract class GeneralActivity extends AppCompatActivity implements Custo
         Log.d("Menu","ouvert");
         capteurShaker.stop();
         capteurUpDown.start();
+
     }
 
     @Override

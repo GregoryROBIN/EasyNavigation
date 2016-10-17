@@ -24,13 +24,13 @@ public class InterpreteurUpDown implements Observer {
     public void update(Observable observable, Object data) {
         if ((data != null)) {
             String donnees = (String) data;
-            if(donnees.equals("valid")){
-                Log.d("Utilisateur", donnees);
+            if(donnees.equals("colorGreen")){
+                //Log.d("Utilisateur", donnees);
                 menu.setSelection(menu.getCourantActivated());
                 menu.performClosedEvent();
             }else if(donnees.equals("descendre"))
             {
-                Log.d("utilisateur","descendre");
+                //Log.d("utilisateur","descendre");
                 menu.increaseCourantActivated(1);
 
             }
