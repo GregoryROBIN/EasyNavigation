@@ -120,6 +120,7 @@ public abstract class GeneralActivity extends AppCompatActivity implements Custo
         super.onWindowFocusChanged(hasFocus);
         // mSpin is our custom Spinner
         if (menu.isDropDownMenuShown() && hasFocus) {
+            menu.setSelection(menu.getCourantActivated());
             menu.performClosedEvent();
         }
     }
