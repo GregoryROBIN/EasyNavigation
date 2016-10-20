@@ -189,7 +189,7 @@ public class AccueilActivity extends GeneralActivity implements NavigationView.O
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        //updateMenuActiveted(item);
+        loadPage(item);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

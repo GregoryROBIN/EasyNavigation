@@ -17,7 +17,7 @@ import java.util.Observable;
 
 public class CapteurShaker extends Observable implements SensorEventListener {
 
-    private static final float SHAKE_THRESHOLD_GRAVITY = 2.7F;
+    private static final float SHAKE_THRESHOLD_GRAVITY = 1.8F;
     private static final int SHAKE_SLOP_TIME_MS = 500;
     private static final int SHAKE_COUNT_RESET_TIME_MS = 3000;
     Context context;
@@ -83,8 +83,8 @@ public class CapteurShaker extends Observable implements SensorEventListener {
             setChanged();
             float[] position = new float[2];
             position[0] = 20;
-            position[1] = 20;
-            if(mShakeCount >=2)
+            position[1] = 100;
+            if(mShakeCount >=1)
                 notifyObservers(position);
         }
 

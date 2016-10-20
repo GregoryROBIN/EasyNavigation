@@ -15,6 +15,7 @@ public class InterpreteurUpDown implements Observer {
 
     CustomSpinner menu;
 
+
     public InterpreteurUpDown(CustomSpinner menu) {
         this.menu = menu;
     }

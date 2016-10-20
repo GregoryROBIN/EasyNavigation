@@ -17,6 +17,7 @@ import fr.unice.polytech.easynavigation.version2.CustomSpinner;
 
 public class CapteurLongTouch  implements View.OnTouchListener, Observer {
 
+    public boolean longClik =false;
     GestureDetectorImplementation gestureDetectorImplementation;
     GestureDetector gestureDetector;
     Context context;
@@ -52,6 +53,7 @@ public class CapteurLongTouch  implements View.OnTouchListener, Observer {
             menu.setY(newY);
             menu.setVisibility(View.VISIBLE);
             menu.performClick();
+            longClik = true;
         }
     }
 }

@@ -40,10 +40,13 @@ public abstract class GeneralActivity extends AppCompatActivity implements Custo
     private InterpreteurUpDown interpreteurUpDown;
 
 
+    private boolean onClickItem = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
     @Override
@@ -60,9 +63,12 @@ public abstract class GeneralActivity extends AppCompatActivity implements Custo
         menu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                MenuItem itemSelected = dataAdapter.getItem(position);
+                onClickItem = true;
+                MenuItem item = dataAdapter.getItem(position);
                 menu.setCourantActivated(position);
-                loadPage(itemSelected);
+                menu.performClosedEvent();
+                loadPage(item);
+                onClickItem = false;
             }
 
             @Override
@@ -87,7 +93,6 @@ public abstract class GeneralActivity extends AppCompatActivity implements Custo
         capteurUpDown = new CapteurUpDown(this);
         interpreteurUpDown = new InterpreteurUpDown(menu);
         capteurUpDown.addObserver(interpreteurUpDown);
-
 
 
     }
@@ -117,12 +122,17 @@ public abstract class GeneralActivity extends AppCompatActivity implements Custo
     }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
+        //super.onWindowFocusChanged(hasFocus);
         // mSpin is our custom Spinner
-        if (menu.isDropDownMenuShown() && hasFocus) {
-            menu.setSelection(menu.getCourantActivated());
+        if (menu.isDropDownMenuShown() && hasFocus && !this.onClickItem) {
+            int position = menu.getCourantActivated();
+            MenuItem item = dataAdapter.getItem(position);
+            menu.setCourantActivated(position);
             menu.performClosedEvent();
+            loadPage(item);
         }
+
+
     }
 
     @Override

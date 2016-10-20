@@ -13,6 +13,7 @@ import fr.unice.polytech.easynavigation.version2.CustomSpinner;
 public class InterpreteurShacker implements Observer {
 
 
+    public boolean onShake =false;
     CustomSpinner menu;
 
 
@@ -32,7 +33,7 @@ public class InterpreteurShacker implements Observer {
             menu.setY(y);
             menu.setVisibility(View.VISIBLE);
             menu.performClick();
-
+            onShake =true;
         }
 
     }
