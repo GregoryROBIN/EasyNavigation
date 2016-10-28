@@ -56,7 +56,6 @@ public class CapteurUpDown extends Observable implements SensorEventListener {
         mSensorManager.registerListener(this, mMagnetic, SensorManager.SENSOR_DELAY_NORMAL);
         running = true;
 
-        Log.d("Accelerometer","upDown and validate");
     }
 
     public boolean isRunning() {
@@ -78,8 +77,6 @@ public class CapteurUpDown extends Observable implements SensorEventListener {
         SensorManager.getOrientation(mRotationMatrix, mOrientationValues);
         //Pour le up il faut detecter un changement sur mOrientationValues[1] de 0.25
 
-        Log.d("MOrientation", ""+mOrientationValues[1]);
-        Log.d("mCurrentPosition", ""+mCurrentPosition);
         if(mCurrentPosition + 0.5 < mOrientationValues[1]) {
             reach = false;
             //monter

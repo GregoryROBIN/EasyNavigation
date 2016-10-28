@@ -21,13 +21,15 @@ public class CustomSpinner extends Spinner {
     private SpinnerAdapter spinnerAdapter;
     /* Interface pour detection ouverture menu */
     private OpenMenuListener openMenuListener;
+    private ItemSelectionListener listener;
     public CustomSpinner(Context context) {
         super(context);
     }
+
+
     public CustomSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
 
     public CustomSpinner(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -97,10 +99,30 @@ public class CustomSpinner extends Spinner {
     public void setOpenMenuListener(OpenMenuListener listener){
         this.openMenuListener = listener;
     }
+
+    public void setOnItemSelectedListener(ItemSelectionListener l) {
+        listener = l;
+    }
+
+    @Override
+    public void setSelection(int position) {
+        setSelection(position, true);
+    }
+
+    @Override
+    public void setSelection(int position, boolean animate) {
+        if (listener != null) {
+            listener.onItemSelected(position);
+        }
+        super.setSelection(position, animate);
+    }
+
     public interface OpenMenuListener{
         void onOpenMenu();
         void onCloseMenu();
     }
 
-
+    public interface ItemSelectionListener {
+        public void onItemSelected(int position);
+    }
 }

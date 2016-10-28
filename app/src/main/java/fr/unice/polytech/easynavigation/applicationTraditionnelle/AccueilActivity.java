@@ -27,6 +27,8 @@ public class AccueilActivity extends GeneralActivity implements NavigationView.O
 
     //Menu de l'application que l'on va transformer
     private Menu menu;
+    private Fragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,8 @@ public class AccueilActivity extends GeneralActivity implements NavigationView.O
     private void fillOurMenu() {
         categories = new ArrayList<>();
         for(int i=0; i<menu.size(); i++){
-            categories.add(menu.getItem(i));
+            if(!menu.getItem(i).getTitle().toString().equals("Configuration"))
+                categories.add(menu.getItem(i));
         }
 
     }
@@ -95,7 +98,6 @@ public class AccueilActivity extends GeneralActivity implements NavigationView.O
     @Override
     public void loadPage(MenuItem item) {
         int id = item.getItemId();
-
         switch (id){
             case R.id.sport:
                 loadSportPage();
@@ -112,11 +114,14 @@ public class AccueilActivity extends GeneralActivity implements NavigationView.O
             case R.id.actualite:
                 loadPageActualite();
                 break;
+            case R.id.config:
+                loadConfigurationPage();
+                break;
         }
     }
 
     private void loadPageActualite() {
-        Fragment fragment = null;
+        /// fragment = null;
         try {
             fragment = (Fragment) ActualiteFragment.newInstance();
             if(fragment == null)
@@ -134,7 +139,7 @@ public class AccueilActivity extends GeneralActivity implements NavigationView.O
     }
 
     private void loadPageHistoire() {
-        Fragment fragment = null;
+//        Fragment fragment = null;
         try {
             fragment = (Fragment) HistoireFragment.newInstance();
             if(fragment == null)
@@ -152,7 +157,7 @@ public class AccueilActivity extends GeneralActivity implements NavigationView.O
     }
 
     private void loadPolitiquePage() {
-        Fragment fragment = null;
+//        Fragment fragment = null;
         try {
             fragment = (Fragment) PolitiqueFragment.newInstance();
             if(fragment == null)
@@ -169,8 +174,26 @@ public class AccueilActivity extends GeneralActivity implements NavigationView.O
         }
     }
 
+    private void loadConfigurationPage() {
+//        Fragment fragment = null;
+        try {
+            fragment = (Fragment) ConfigurationFragement.newInstance();
+            if(fragment == null)
+                System.out.println("Le fragment est nul");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if(fragment !=null) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.content_frame, fragment);
+            transaction.commit();
+        }
+    }
+
     private void loadSportPage() {
-        Fragment fragment = null;
+//        Fragment fragment = null;
         try {
             fragment = (Fragment) SportFragment.newInstance();
             if(fragment == null)
@@ -189,11 +212,14 @@ public class AccueilActivity extends GeneralActivity implements NavigationView.O
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         loadPage(item);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
     @Override
     public void onBackPressed() {

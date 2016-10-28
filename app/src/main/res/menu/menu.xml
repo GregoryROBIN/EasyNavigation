@@ -17,5 +17,8 @@
         <item
             android:id="@+id/histoire"
             android:title="Histoire" />
+        <item
+            android:id="@+id/config"
+            android:title="Configuration"/>
     </group>
 </menu>

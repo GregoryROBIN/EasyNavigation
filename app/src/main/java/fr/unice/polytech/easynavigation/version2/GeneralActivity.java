@@ -1,16 +1,16 @@
 package fr.unice.polytech.easynavigation.version2;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 
 import java.util.List;
 
+import fr.unice.polytech.easynavigation.setting.DataBase;
 import fr.unice.polytech.easynavigation.R;
 import fr.unice.polytech.easynavigation.version2.upDownDetection.CapteurUpDown;
 import fr.unice.polytech.easynavigation.version2.upDownDetection.InterpreteurUpDown;
@@ -22,7 +22,7 @@ import fr.unice.polytech.easynavigation.version2.shacker.InterpreteurShacker;
  * General activity
  */
 
-public abstract class GeneralActivity extends AppCompatActivity implements CustomSpinner.OpenMenuListener {
+public abstract class GeneralActivity extends AppCompatActivity implements CustomSpinner.OpenMenuListener, DataBase.SettingListener {
     //View general initialisé dans l'activité fille
     protected View frame;
     protected List<MenuItem> categories;
@@ -40,7 +40,9 @@ public abstract class GeneralActivity extends AppCompatActivity implements Custo
     private InterpreteurUpDown interpreteurUpDown;
 
 
+
     private boolean onClickItem = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,24 +62,21 @@ public abstract class GeneralActivity extends AppCompatActivity implements Custo
         menu.setOpenMenuListener(this);
         menu.setVisibility(View.INVISIBLE);
         menu.setCourantActivated(menu.getSelectedItemPosition());
-        menu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                onClickItem = true;
-                MenuItem item = dataAdapter.getItem(position);
-                menu.setCourantActivated(position);
-                menu.performClosedEvent();
-                loadPage(item);
-                onClickItem = false;
-            }
+        menu.setOnItemSelectedListener(new CustomSpinner.ItemSelectionListener() {
+                                           @Override
+                                           public void onItemSelected(int position) {
+                                               onClickItem = true;
+                                               MenuItem item = dataAdapter.getItem(position);
+                                               menu.setCourantActivated(position);
+                                               menu.performClosedEvent();
+                                               Log.d("FRAG", "Selection");
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                                               loadPage(item);
+                                               onClickItem = false;
+                                           }
+                                       });
 
-            }
-        });
-
-        //initialisation du shacker
+                //initialisation du shacker
         capteurShaker = new CapteurShaker(this);
         controleurShacker = new InterpreteurShacker(menu);
         capteurShaker.addObserver(controleurShacker);
@@ -86,6 +85,7 @@ public abstract class GeneralActivity extends AppCompatActivity implements Custo
 
         //initialisation du longClick
         capteurLongTouch = new CapteurLongTouch(this,menu );
+        capteurLongTouch.start();
         frame.setOnTouchListener(capteurLongTouch);
 
 
@@ -93,6 +93,10 @@ public abstract class GeneralActivity extends AppCompatActivity implements Custo
         capteurUpDown = new CapteurUpDown(this);
         interpreteurUpDown = new InterpreteurUpDown(menu);
         capteurUpDown.addObserver(interpreteurUpDown);
+        DataBase.database.setSettingListener(this);
+        DataBase.database.setActiveUpDown(false);
+        DataBase.database.setActiveShake(false);
+        DataBase.database.setActiveLongTouch(true);
 
 
     }
@@ -100,9 +104,9 @@ public abstract class GeneralActivity extends AppCompatActivity implements Custo
     @Override
     protected void onResume(){
         super.onPause();
-        if(menu.isDropDownMenuShown()){
+        if(menu.isDropDownMenuShown() && DataBase.database.isActiveUpDown()){
             capteurUpDown.start();
-        }else
+        }else if(DataBase.database.isActiveShake())
         {
             capteurShaker.start();
         }
@@ -131,15 +135,14 @@ public abstract class GeneralActivity extends AppCompatActivity implements Custo
             menu.performClosedEvent();
             loadPage(item);
         }
-
-
     }
 
     @Override
     public void onOpenMenu(){
         Log.d("Menu","ouvert");
         capteurShaker.stop();
-        capteurUpDown.start();
+        if(DataBase.database.isActiveUpDown())
+            capteurUpDown.start();
 
     }
 
@@ -147,8 +150,35 @@ public abstract class GeneralActivity extends AppCompatActivity implements Custo
     public void onCloseMenu() {
         Log.d("Menu", "fermé");
         capteurUpDown.stop();
-        capteurShaker.start();
+        if(DataBase.database.isActiveShake())
+            capteurShaker.start();
         menu.setVisibility(View.INVISIBLE);
+    }
+
+
+    @Override
+    public void onChangeUpDown() {
+        Log.d("UpDown","Changed");
+        if(DataBase.database.isActiveUpDown())
+            capteurUpDown.start();
+        else
+            capteurUpDown.stop();
+    }
+
+    @Override
+    public void onChangeShaker() {
+        if(DataBase.database.isActiveShake())
+            capteurShaker.start();
+        else
+            capteurShaker.stop();
+    }
+
+    @Override
+    public void onChangeLongClick() {
+        if(DataBase.database.isActiveLongTouch())
+            capteurLongTouch.start();
+        else
+            capteurLongTouch.stop();
     }
 
     public abstract void loadPage(MenuItem item);

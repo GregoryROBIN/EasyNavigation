@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import fr.unice.polytech.easynavigation.R;
@@ -29,8 +30,14 @@ public class HistoireFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.content_accueil, container, false);
-        TextView textView = (TextView) rootView.findViewById(R.id.textView);
-        textView.setText("Histoire page");
+        TextView title = (TextView) rootView.findViewById(R.id.title);
+        TextView content = (TextView) rootView.findViewById(R.id.content);
+        ImageView image1 = (ImageView) rootView.findViewById(R.id.image1);
+        ImageView image2 = (ImageView) rootView.findViewById(R.id.image2);
+        image1.setImageResource(R.drawable.histoire);
+        image2.setImageResource(R.drawable.henri4);
+        title.setText("Un peu d'histoire ...");
+        content.setText("56 ans : age de la mort d'Henri IV");
         return rootView;
     }
 }

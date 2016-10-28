@@ -26,12 +26,10 @@ public class InterpreteurUpDown implements Observer {
         if ((data != null)) {
             String donnees = (String) data;
             if(donnees.equals("colorGreen")){
-                //Log.d("Utilisateur", donnees);
                 menu.setSelection(menu.getCourantActivated());
                 menu.performClosedEvent();
             }else if(donnees.equals("descendre"))
             {
-                //Log.d("utilisateur","descendre");
                 menu.increaseCourantActivated(1);
 
             }

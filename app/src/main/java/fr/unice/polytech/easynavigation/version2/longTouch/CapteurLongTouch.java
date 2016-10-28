@@ -22,6 +22,7 @@ public class CapteurLongTouch  implements View.OnTouchListener, Observer {
     GestureDetector gestureDetector;
     Context context;
     CustomSpinner menu;
+    boolean touchOK=false;
 
     public CapteurLongTouch(Context c, CustomSpinner menu) {
         this.context = c;
@@ -32,10 +33,19 @@ public class CapteurLongTouch  implements View.OnTouchListener, Observer {
 
 
     }
+    public void start(){
+        touchOK =true;
+    }
+    public void stop(){
+        touchOK = false;
+    }
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        gestureDetector.onTouchEvent(event);
-        return true;
+        if(touchOK) {
+            gestureDetector.onTouchEvent(event);
+            return true;
+        }else
+            return true;
     }
 
     @Override
